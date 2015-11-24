@@ -9,8 +9,6 @@ app = Proc.new do |env|
   res['Content-Type'] = 'text/html'
   res.write(req.path)
   res.finish
-
-
 end
 
 Rack::Server.start(
