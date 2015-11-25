@@ -12,7 +12,7 @@ class ControllerBase
   def initialize(req, res, route_params = {})
     @req = req
     @res = res
-    @params = route_params
+    @params = route_params.merge(req.params)
   end
 
   # Helper method to alias @already_built_response
@@ -52,7 +52,7 @@ class ControllerBase
     # debugger
     folder = "./views/#{self.class.name.tableize.singularize}/"
     file_path = folder + template_name.to_s + ".html.erb"
-    # debugger 
+    # debugger
     content = File.read(file_path)
     template = ERB.new(content)
     result = template.result(binding)
@@ -65,6 +65,9 @@ class ControllerBase
   end
 
   # use this with the router to call action_name (:index, :show, :create...)
-  def invoke_action(name)
+  def invoke_action(action_name)
+    # debugger
+    send(action_name)
+    render(action_name) unless @already_built_response
   end
 end
